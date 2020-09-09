@@ -16,7 +16,12 @@ public class DatabaseConnector {
 	public DatabaseConnector() throws SQLException {
 		conn = DriverManager.getConnection(DatabaseConfiguration.URL, DatabaseConfiguration.USER,
 				DatabaseConfiguration.PASS);
-		
+		this.st = conn.createStatement();
+
+	}
+
+	public void close() throws SQLException {
+		conn.close();
 	}
 
 	public void createActor(String forename, String surname) throws SQLException {
@@ -26,7 +31,6 @@ public class DatabaseConnector {
 
 	public void readAllActors() throws SQLException {
 		String sql = "select * from actor";
-		this.st = conn.createStatement();
 		ResultSet rs = st.executeQuery(sql);
 
 		while (rs.next()) {
@@ -39,8 +43,6 @@ public class DatabaseConnector {
 		// Updates first name based on last name
 		String sql = String.format("update actor set first_name = '%s' where last_name = '%s' ", fname, lname);
 		st.executeUpdate(sql);
-
-
 
 	}
 
