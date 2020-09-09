@@ -34,21 +34,21 @@ public class DatabaseConnector {
 		ResultSet rs = st.executeQuery(sql);
 
 		while (rs.next()) {
-			System.out.println(String.format("%s %s", rs.getString("first_name"), rs.getString("last_name")));
+			System.out.println(String.format("%s %s %s", rs.getString("actor_id"), rs.getString("first_name"), rs.getString("last_name")));
 		}
 	}
 
-	public void updateActor(String fname, String lname) throws SQLException {
+	public void updateActor(String fname, String lname, int id) throws SQLException {
 
 		// Updates first name based on last name
-		String sql = String.format("update actor set first_name = '%s' where last_name = '%s' ", fname, lname);
+		String sql = String.format("update actor set `first_name` = '%s', `last_name` = '%s' where actor_id = '%s' ",
+				fname, lname, id);
 		st.executeUpdate(sql);
 
 	}
 
-	public void deleteActor(String fname, String lname) throws SQLException {
-		st.executeLargeUpdate(
-				String.format("delete from actor where `first_name` = '%s' and `last_name` = '%s'", fname, lname));
+	public void deleteActor(int id) throws SQLException {
+		st.executeLargeUpdate(String.format("delete from actor where `actor_id` = '%s'", id));
 	}
 
 }
